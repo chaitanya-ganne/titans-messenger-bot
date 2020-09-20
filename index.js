@@ -18,6 +18,8 @@ const IBCT_YES = "IBCT_YES";
 const IBCT_NO = "IBCT_NO";
 const TALK_YES = "TALK_YES";
 const TALK_NO = "TALK_NO";
+const MARK_SEEN = "mark_seen";
+const TYPING_ON = "typing_on";
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
@@ -96,6 +98,8 @@ app.get('/webhook', (req, res) => {
 function handlePostback(sender_psid, received_postback) {
   // Get the payload for the postback
   const payload = received_postback.payload;
+  callSenderActionsAPI(sender_action, MARK_SEEN);
+  callSenderActionsAPI(sender_action, TYPING_ON);
 
   // Set the response and udpate db based on the postback payload
   switch (payload) {
@@ -314,4 +318,27 @@ function callSendAPI(sender_psid, response) {
       console.error("Unable to send message:", err);
     }
   });
+}
+
+function callSenderActionsAPI(sender_psid, action) {
+  let request_body = {
+    "recipient": {
+      "id": sender_psid
+    },
+    "sender_action": action
+  };
+
+    // Send the HTTP request to the Messenger Platform
+    request({
+      "url": `${FACEBOOK_GRAPH_API_BASE_URL}me/messages`,
+      "qs": { "access_token": PAGE_ACCESS_TOKEN },
+      "method": "POST",
+      "json": request_body
+    }, (err, res, body) => {
+      console.log("Message Sent Response body:", body);
+      if (err) {
+        console.error("Unable to send message:", err);
+      }
+    });
+
 }
