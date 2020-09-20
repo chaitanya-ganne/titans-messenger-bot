@@ -98,8 +98,8 @@ app.get('/webhook', (req, res) => {
 function handlePostback(sender_psid, received_postback) {
   // Get the payload for the postback
   const payload = received_postback.payload;
-  callSenderActionsAPI(sender_action, MARK_SEEN);
-  callSenderActionsAPI(sender_action, TYPING_ON);
+  callSenderActionsAPI(sender_psid, MARK_SEEN);
+  callSenderActionsAPI(sender_psid, TYPING_ON);
 
   // Set the response and udpate db based on the postback payload
   switch (payload) {
