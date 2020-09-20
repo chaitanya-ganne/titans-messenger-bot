@@ -20,6 +20,7 @@ const TALK_YES = "TALK_YES";
 const TALK_NO = "TALK_NO";
 const MARK_SEEN = "mark_seen";
 const TYPING_ON = "typing_on";
+const menuTimings = "MENU_TIMINGS";
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
@@ -129,6 +130,9 @@ function handlePostback(sender_psid, received_postback) {
       break;
     case JOIN_NO:
       handleJoinNoPostback(sender_psid);
+      break;
+    case MENU_TIMINGS:
+      handleMenuTimingsPostback(sender_psid);
       break;
     default:
       console.log('Cannot differentiate the payload type');
@@ -293,6 +297,13 @@ function handleTalkNoPostback(sender_psid) {
     "text": "No problem, my friend. Please enter your message, I will try to answer it or one of our members will reply back to you shortly."
   };
   callSendAPI(sender_psid, talkNoPayload);
+}
+
+function handleMenuTimingsPostback(sender_psid) {
+  const timingsPayload = {
+    "text": "We meet every Thursday online on Zoom from 12.20 PM - 2 PM. Zoom link: bit.ly/ibctonline."
+  };
+  callSendAPI(sender_psid, timingsPayload);
 }
 
 
