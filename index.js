@@ -20,7 +20,7 @@ const TALK_YES = "TALK_YES";
 const TALK_NO = "TALK_NO";
 const MARK_SEEN = "mark_seen";
 const TYPING_ON = "typing_on";
-const menuTimings = "MENU_TIMINGS";
+const MENU_TIMINGS = "MENU_TIMINGS";
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
